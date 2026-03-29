@@ -89,7 +89,7 @@
   <h1>AI共創作品集</h1>
   <nav>
     <button onclick="showSection('music')" class="active">音樂</button>
-    <button onclick="showSection('art')">圖片</button>
+    <button onclick="showSection('art')">圖象</button>
   </nav>
 </header>
 
@@ -119,6 +119,12 @@
     <div class="item" onclick="openImage('art/art1.png')">
       <img src="art/art1.png"><p>百年回眸</p>
     </div>
+
+    <div class="item" onclick="openImage('art/art2.png')"> <img src="art/art2.png"> <p class="title">魚戲新芽</p> </div> 
+    <div class="item" onclick="openImage('art/art3.png')"> <img src="art/art3.png"> <p class="title">幸哉風自沐</p> </div> 
+    <div class="item" onclick="openImage('art/art4.png')"> <img src="art/art4.png"> <p class="title">氣清山霽風</p> </div> 
+    <div class="item" onclick="openImage('art/art5.png')"> <img src="art/art5.png"> <p class="title">黃玲述春意</p> </div> 
+    <div class="item" onclick="openImage('art/art6.png')"> <img src="art/art6.png"> <p class="title">輕舟慢渡</p>
   </section>
 
 </div>
@@ -128,12 +134,6 @@
 </div>
 
 <script>
-const tracks = [
-  {title:"杯來芳茗之一", file:"music/music1.mp3"},
-  {title:"杯來芳茗", file:"music/music2.mp3"},
-  {title:"禪香流轉之一", file:"music/music3.mp3"},
-  {title:"禪香流轉", file:"music/music4.mp3"},
-  {title:"晨請盛宴", file:"music/music5.mp3"},
   const tracks = [
   {title:"杯來芳茗之一", file:"music/music1.mp3"},
   {title:"杯來芳茗", file:"music/music2.mp3"},
@@ -160,7 +160,6 @@ const tracks = [
   {title:"假日十二美", file:"music/music23.mp3"},
   {title:"江湖雨聲之一", file:"music/music24.mp3"},
   {title:"江湖雨聲", file:"music/music25.mp3"}
-];
 ];
 
 let current = 0;
