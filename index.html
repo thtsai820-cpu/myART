@@ -1,140 +1,135 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI共創作品集</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI共創作品集</title>
 
-  <style>
-    body { margin:0; font-family:Arial; background:#0f172a; color:#e2e8f0; }
-    header { text-align:center; padding:20px; background:#1e293b; }
+<style>
+body { margin:0; font-family:Arial; background:#0f172a; color:#e2e8f0; }
+header { text-align:center; padding:20px; background:#1e293b; }
 
-    nav button {
-      margin:5px; padding:8px 16px; border:none; border-radius:6px;
-      background:#334155; color:white; cursor:pointer;
-    }
-    nav button.active { background:#38bdf8; color:black; }
+nav button {
+  margin:5px; padding:8px 16px;
+  border:none; border-radius:6px;
+  background:#334155; color:white;
+  cursor:pointer;
+}
+nav button.active { background:#38bdf8; color:black; }
 
-    .container { max-width:1200px; margin:auto; padding:20px; }
+.container { max-width:1200px; margin:auto; padding:20px; }
 
-    /* 🎧 專業音樂播放器 */
-    .music-player {
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:20px;
-    }
+/* 🎧 音樂播放器 */
+.music-player {
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:20px;
+}
 
-    .player {
-      background:#1e293b;
-      padding:20px;
-      border-radius:12px;
-      text-align:center;
-    }
+.player {
+  background:#1e293b;
+  padding:20px;
+  border-radius:12px;
+  text-align:center;
+}
 
-    .cover {
-      width:100%;
-      max-width:300px;
-      border-radius:10px;
-      margin-bottom:15px;
-    }
+.controls button {
+  margin:5px;
+  padding:10px;
+  border:none;
+  border-radius:6px;
+  background:#38bdf8;
+  cursor:pointer;
+}
 
-    .controls button {
-      margin:5px;
-      padding:10px;
-      border:none;
-      border-radius:6px;
-      cursor:pointer;
-      background:#38bdf8;
-      color:black;
-    }
+.playlist {
+  background:#1e293b;
+  border-radius:12px;
+  max-height:500px;
+  overflow-y:auto;
+}
 
-    .playlist {
-      background:#1e293b;
-      border-radius:12px;
-      max-height:500px;
-      overflow-y:auto;
-    }
+.track {
+  padding:10px;
+  border-bottom:1px solid #334155;
+  cursor:pointer;
+}
 
-    .track {
-      padding:10px;
-      border-bottom:1px solid #334155;
-      cursor:pointer;
-    }
+.track:hover { background:#334155; }
+.active-track { background:#38bdf8; color:black; }
 
-    .track:hover { background:#334155; }
-    .active-track { background:#38bdf8; color:black; }
+/* 🎨 畫廊 */
+.gallery { column-count:3; column-gap:15px; }
+@media (max-width:900px){ .gallery{column-count:2;} }
+@media (max-width:500px){ .gallery{column-count:1;} }
 
-    /* 畫廊 */
-    .gallery { column-count:3; column-gap:15px; }
-    @media (max-width:900px){ .gallery{column-count:2;} }
-    @media (max-width:500px){ .gallery{column-count:1;} }
+.item { break-inside:avoid; margin-bottom:15px; cursor:pointer; }
+.item img { width:100%; border-radius:10px; }
 
-    .item { break-inside:avoid; margin-bottom:15px; }
-    .item img { width:100%; border-radius:10px; }
+.hidden { display:none; }
 
-    .hidden { display:none; }
-
-    .lightbox {
-      position:fixed; top:0; left:0; width:100%; height:100%;
-      background:rgba(0,0,0,0.9);
-      display:none; justify-content:center; align-items:center;
-    }
-    .lightbox img { max-width:90%; max-height:90%; }
-  </style>
+/* 放大 */
+.lightbox {
+  position:fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background:rgba(0,0,0,0.9);
+  display:none;
+  justify-content:center;
+  align-items:center;
+}
+.lightbox img {
+  max-width:90%;
+  max-height:90%;
+}
+</style>
 </head>
 
 <body>
 
 <header>
-  <h1>AI共創作品集</h1>
-  <nav>
-    <button onclick="showSection('music')" class="active">音樂</button>
-    <button onclick="showSection('art')">圖象</button>
-  </nav>
+<h1>AI共創作品集</h1>
+<nav>
+<button onclick="showSection('music')" class="active">音樂</button>
+<button onclick="showSection('art')">圖象</button>
+<button onclick="showSection('calligraphy')">書法</button>
+</nav>
 </header>
 
 <div class="container">
 
-  <!-- 🎧 音樂播放器 -->
-  <section id="music" class="music-player">
+<!-- 🎧 音樂 -->
+<section id="music" class="music-player">
+  <div class="player">
+    <h2 id="title">選擇音樂</h2>
+    <audio id="audio" controls></audio>
 
-    <div class="player">
-      <img id="cover" class="cover" src="https://via.placeholder.com/300x300?text=Music">
-      <h2 id="title">選擇音樂</h2>
-      <audio id="audio" controls></audio>
-
-      <div class="controls">
-        <button onclick="prev()">⏮</button>
-        <button onclick="playPause()">▶ / ⏸</button>
-        <button onclick="next()">⏭</button>
-      </div>
+    <div class="controls">
+      <button onclick="prev()">⏮</button>
+      <button onclick="playPause()">▶ / ⏸</button>
+      <button onclick="next()">⏭</button>
     </div>
+  </div>
 
-    <div class="playlist" id="playlist"></div>
+  <div class="playlist" id="playlist"></div>
+</section>
 
-  </section>
+<!-- 🖼️ 圖象 -->
+<section id="art" class="gallery hidden"></section>
 
-  <!-- 🖼️ 圖片 -->
-  <section id="art" class="gallery hidden">
-    <div class="item" onclick="openImage('art/art1.png')">
-      <img src="art/art1.png"><p>百年回眸</p>
-    </div>
-
-    <div class="item" onclick="openImage('art/art2.png')"> <img src="art/art2.png"> <p class="title">魚戲新芽</p> </div> 
-    <div class="item" onclick="openImage('art/art3.png')"> <img src="art/art3.png"> <p class="title">幸哉風自沐</p> </div> 
-    <div class="item" onclick="openImage('art/art4.png')"> <img src="art/art4.png"> <p class="title">氣清山霽風</p> </div> 
-    <div class="item" onclick="openImage('art/art5.png')"> <img src="art/art5.png"> <p class="title">黃玲述春意</p> </div> 
-    <div class="item" onclick="openImage('art/art6.png')"> <img src="art/art6.png"> <p class="title">輕舟慢渡</p>
-  </section>
+<!-- 🖌️ 書法 -->
+<section id="calligraphy" class="gallery hidden"></section>
 
 </div>
 
 <div class="lightbox" id="lightbox" onclick="closeImage()">
-  <img id="lightbox-img">
+<img id="lightbox-img">
 </div>
 
 <script>
-  const tracks = [
+
+/* 🎧 音樂（只改這裡就好🔥） */
+const tracks = [
   {title:"杯來芳茗之一", file:"music/music1.mp3"},
   {title:"杯來芳茗", file:"music/music2.mp3"},
   {title:"禪香流轉之一", file:"music/music3.mp3"},
@@ -162,6 +157,24 @@
   {title:"江湖雨聲", file:"music/music25.mp3"}
 ];
 
+/* 🖼️ 圖象 */
+const artworks = [
+  {title:"百年回眸", file:"art/art1.png"},
+  {title:"魚戲新芽", file:"art/art2.png"},
+  {title:"幸哉風自沐", file:"art/art3.png"},
+  {title:"氣清山霽風", file:"art/art4.png"},
+  {title:"黃玲述春意", file:"art/art5.png"},
+  {title:"輕舟慢渡", file:"art/art6.png"}
+];
+
+/* 🖌️ 書法 */
+const calligraphy = [
+  {title:"書法小品一", file:"calligraphy/img1.png"},
+  {title:"書法小品二", file:"calligraphy/img2.png"},
+  {title:"書法小品三", file:"calligraphy/img3.png"}
+];
+
+/* 🎧 播放器 */
 let current = 0;
 const audio = document.getElementById('audio');
 const title = document.getElementById('title');
@@ -192,15 +205,14 @@ function prev(){
 
 audio.addEventListener('ended', next);
 
-function buildList(){
-  tracks.forEach((t,i)=>{
-    const div=document.createElement('div');
-    div.className='track';
-    div.innerText=t.title;
-    div.onclick=()=>{loadTrack(i); audio.play();};
-    playlist.appendChild(div);
-  });
-}
+/* 自動生成音樂清單 */
+tracks.forEach((t,i)=>{
+  const div=document.createElement('div');
+  div.className='track';
+  div.innerText=t.title;
+  div.onclick=()=>{loadTrack(i); audio.play();};
+  playlist.appendChild(div);
+});
 
 function highlight(){
   document.querySelectorAll('.track').forEach((el,i)=>{
@@ -208,13 +220,32 @@ function highlight(){
   });
 }
 
-buildList();
 loadTrack(0);
 
+/* 🖼️ 自動畫廊 */
+function renderGallery(data, id){
+  const container = document.getElementById(id);
+  data.forEach(item=>{
+    const div=document.createElement('div');
+    div.className='item';
+    div.innerHTML=`<img src=\"${item.file}\"><p>${item.title}</p>`;
+    div.onclick=()=>openImage(item.file);
+    container.appendChild(div);
+  });
+}
+
+renderGallery(artworks,'art');
+renderGallery(calligraphy,'calligraphy');
+
+/* UI */
 function showSection(section){
-  document.getElementById('music').classList.add('hidden');
-  document.getElementById('art').classList.add('hidden');
+  ['music','art','calligraphy'].forEach(id=>{
+    document.getElementById(id).classList.add('hidden');
+  });
   document.getElementById(section).classList.remove('hidden');
+
+  document.querySelectorAll('nav button').forEach(btn=>btn.classList.remove('active'));
+  event.target.classList.add('active');
 }
 
 function openImage(src){
@@ -225,6 +256,7 @@ function openImage(src){
 function closeImage(){
   document.getElementById('lightbox').style.display='none';
 }
+
 </script>
 
 </body>
